@@ -37,8 +37,6 @@ export default function App() {
 
   function handleTotalBill(bill) {
     setTotalBill(totalBill + bill);
-    console.log("Sada sam u handle total");
-    console.log(totalBill);
   }
 
   return (
@@ -51,9 +49,6 @@ export default function App() {
 }
 
 function ItemsList({ allItems, onHandleTotalBill }) {
-  const sendComponentToParent = (totalBill) => {
-    onHandleTotalBill(totalBill);
-  };
   return (
     <div className="list">
       {allItems.map((item) => (
