@@ -30,37 +30,44 @@ const shopingItems = [
 
 export default function App() {
   const [allItems, setAllItems] = useState([]);
-
+  const [totalBill, setTotalBill] = useState(null);
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
+  }
+
+  function handleTotalBill(bill) {
+    setTotalBill(totalBill + bill);
   }
 
   return (
     <div className="App">
       <button>Add</button>
-      <ItemsList
-        allItems={allItems}
-        shopingItems={shopingItems}
-        onAddCards={handleAddCards}
-      />
+      <ItemsList allItems={allItems} onHandleTotalBill={handleTotalBill} />
       <AddFrom onAddCards={handleAddCards} />
     </div>
   );
 }
 
-function ItemsList({ allItems }) {
+function ItemsList({ allItems, onHandleTotalBill }) {
   return (
     <div className="list">
       {allItems.map((item) => (
-        <Item item={item} key={item.id} />
+        <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} />
       ))}
     </div>
   );
 }
 
-function Item({ item }) {
-  const total = (item.price - (item.price * item.discount) / 100) * item.amount;
+let totalBill = 0;
+function Item({ item, onHandleTotalBill }) {
+  let [amount, setAmount] = useState("");
+  const [bill, setBill] = useState(0);
 
+  function calculateBill(totalBill, item, amount) {
+    totalBill = (item.price - (item.price * item.discount) / 100) * amount;
+    console.log(totalBill);
+    setBill(bill + totalBill);
+  }
   return (
     <div
       className="card"
@@ -72,10 +79,19 @@ function Item({ item }) {
         <p>{`Discount: ${item.discount}%`}</p>
 
         <span>Choose amount </span>
-        <input type="number" />
+        <input
+          type="text"
+          placeholder="Enter amount"
+          value={amount}
+          onChange={(e) => {
+            setAmount(Number(e.target.value));
+          }}
+        />
 
-        <p>{`Total to pay: ${total}`}</p>
-        <button>Buy</button>
+        <p>{`Total to pay: ${bill}`}</p>
+        <button onClick={() => calculateBill(totalBill, item, amount)}>
+          Buy
+        </button>
       </div>
     </div>
   );
@@ -85,8 +101,10 @@ function AddFrom({ onAddCards }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
+
   function handleSubmit(e) {
     e.preventDefault();
+
     const newItem = { name, price, discount, id: Date.now() };
 
     onAddCards(newItem);
@@ -110,6 +128,7 @@ function AddFrom({ onAddCards }) {
           placeholder="Enter discount"
           onChange={(e) => setDiscount(Number(e.target.value))}
         />
+
         <button type="submit">Add item</button>
       </form>
     </div>
