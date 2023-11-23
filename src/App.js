@@ -30,13 +30,16 @@ const shopingItems = [
 
 export default function App() {
   const [allItems, setAllItems] = useState([]);
-  const [totalBill, setTotalBill] = useState(null);
+  let [totalBill, setTotalBill] = useState(null);
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
   }
 
   function handleTotalBill(bill) {
-    setTotalBill(totalBill + bill);
+    // setTotalBill(totalBill + bill);
+    console.log(`Evo me u handle total i ovo je bill ${bill}`);
+    setTotalBill((totalBill = totalBill + bill));
+    console.log(`Ovo je total bill u handleTotalBill ${totalBill}`);
   }
 
   return (
@@ -61,17 +64,16 @@ function ItemsList({ allItems, onHandleTotalBill }) {
 let totalBill = 0;
 function Item({ item, onHandleTotalBill }) {
   let [amount, setAmount] = useState("");
-  const [bill, setBill] = useState(0);
+  const [bill, setBill] = useState(totalBill);
 
   function calculateBill(totalBill, item, amount) {
+    console.log(item.price, amount);
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
+    console.log(totalBill);
+    setBill((bill) => bill + totalBill);
 
-    setBill(bill + totalBill);
-
-    const newBill = bill;
-
-    console.log("sada sam u calculate Bill Item componenti");
-    onHandleTotalBill(newBill);
+    console.log(`sada sam u calculate Bill Item componenti ${bill}`);
+    onHandleTotalBill(totalBill);
   }
   return (
     <div
