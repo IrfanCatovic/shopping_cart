@@ -45,6 +45,7 @@ export default function App() {
 
   }
 
+  
   function handleTotalBill(bill) {
     // setTotalBill(totalBill + bill);
     console.log(`Evo me u handle total i ovo je bill ${bill}`);
@@ -52,16 +53,29 @@ export default function App() {
     console.log(`Ovo je total bill u handleTotalBill ${totalBill}`);
   }
 
+  function deleteItems(){
+    setAllItems([]);
+  }
+
+  function handleClearList()
+  {
+
+    setTotalBill(null)
+
+  }
+
   return (
     <div className="App">
       <button>Add</button>
-      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} onHandleDelete={handleDelete}/>
+      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} onHandleDelete={handleDelete} onClearList={handleClearList}/>
       <AddFrom onAddCards={handleAddCards} />
+      {allItems.length > 0 && (<button onClick={deleteItems}>Format List</button>)}
     </div>
   );
 }
 
-function ItemsList({ totalBill, allItems, onHandleTotalBill, onHandleDelete }) {
+
+function ItemsList({ totalBill, allItems, onHandleTotalBill, onHandleDelete, onClearList }) {
   return (
     <div>
       <div className="list">
@@ -70,8 +84,11 @@ function ItemsList({ totalBill, allItems, onHandleTotalBill, onHandleDelete }) {
       ))}
       </div>
 
-        {totalBill !== null && (
+        {totalBill !== null && totalBill !== 0 && (
+          <div>
           <h2>Total Bill: ${totalBill}</h2>
+          <button onClick={()=>onClearList()}>Clear list</button>
+          </div>
         )}
 
       <div/>
@@ -93,6 +110,7 @@ function Item({ item, onHandleTotalBill , onHandleDelete}) {
 
     console.log(`sada sam u calculate Bill Item componenti ${bill}`);
     onHandleTotalBill(totalBill);
+    setAmount("");
   }
   return (
     <div
@@ -114,8 +132,9 @@ function Item({ item, onHandleTotalBill , onHandleDelete}) {
           }}
         />
 
-        <p>{`Total to pay: ${bill}`}</p>
-        <button onClick={() => calculateBill(totalBill, item, amount)}>
+        {/* <p>{`Total to pay: ${bill}`}</p> */}
+        
+          <button onClick={() => calculateBill(totalBill, item, amount)}>
           Buy
         </button>
         <button onClick={()=> onHandleDelete(item.id)}>Delete</button>
