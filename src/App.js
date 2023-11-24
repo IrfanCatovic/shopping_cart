@@ -49,20 +49,26 @@ export default function App() {
   return (
     <div className="App">
       <button>Add</button>
-      <ItemsList allItems={allItems} onHandleTotalBill={handleTotalBill} />
+      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} />
       <AddFrom onAddCards={handleAddCards} />
     </div>
   );
 }
 
-function ItemsList({ allItems, onHandleTotalBill }) {
+function ItemsList({ totalBill, allItems, onHandleTotalBill }) {
   return (
-    <div><div className="list">
+    <div>
+      <div className="list">
       {allItems.map((item) => (
         <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} />
       ))}
-    </div>
-    <div/>
+      </div>
+
+        {totalBill !== null && (
+          <h2>Total Bill: ${totalBill}</h2>
+        )}
+
+      <div/>
     </div>
   );
 }
