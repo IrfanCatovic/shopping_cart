@@ -32,6 +32,12 @@ export default function App() {
   const [allItems, setAllItems] = useState([]);
   let [totalBill, setTotalBill] = useState(null);
 
+  function handleDelete(id) {
+    setAllItems((allItems) => allItems.filter((item) => item.id !== id));
+    //funckija filter prodje kroz ceo array items i proverava da li dobijeni id nije jednak id u nizu
+    //ako nije jednak onda moze da nastavi u novi kreirani niz
+    //ako je jednak on ne moze u novi niz nego bude izbrisan
+  }
 
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
@@ -49,18 +55,18 @@ export default function App() {
   return (
     <div className="App">
       <button>Add</button>
-      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} />
+      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} onHandleDelete={handleDelete}/>
       <AddFrom onAddCards={handleAddCards} />
     </div>
   );
 }
 
-function ItemsList({ totalBill, allItems, onHandleTotalBill }) {
+function ItemsList({ totalBill, allItems, onHandleTotalBill, onHandleDelete }) {
   return (
     <div>
       <div className="list">
       {allItems.map((item) => (
-        <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} />
+        <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} onHandleDelete={onHandleDelete} />
       ))}
       </div>
 
@@ -74,7 +80,8 @@ function ItemsList({ totalBill, allItems, onHandleTotalBill }) {
 }
 
 let totalBill = 0;
-function Item({ item, onHandleTotalBill }) {
+
+function Item({ item, onHandleTotalBill , onHandleDelete}) {
   let [amount, setAmount] = useState("");
   const [bill, setBill] = useState(totalBill);
 
@@ -111,6 +118,7 @@ function Item({ item, onHandleTotalBill }) {
         <button onClick={() => calculateBill(totalBill, item, amount)}>
           Buy
         </button>
+        <button onClick={()=> onHandleDelete(item.id)}>Delete</button>
       </div>
     </div>
   );
