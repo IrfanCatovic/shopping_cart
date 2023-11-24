@@ -31,8 +31,12 @@ const shopingItems = [
 export default function App() {
   const [allItems, setAllItems] = useState([]);
   let [totalBill, setTotalBill] = useState(null);
+
+
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
+
+
   }
 
   function handleTotalBill(bill) {
@@ -53,10 +57,12 @@ export default function App() {
 
 function ItemsList({ allItems, onHandleTotalBill }) {
   return (
-    <div className="list">
+    <div><div className="list">
       {allItems.map((item) => (
         <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} />
       ))}
+    </div>
+    <div/>
     </div>
   );
 }
@@ -115,6 +121,14 @@ function AddFrom({ onAddCards }) {
     const newItem = { name, price, discount, id: Date.now() };
 
     onAddCards(newItem);
+
+    console.log("Ovo me zanima")
+    setName('');
+    setPrice('');
+    setDiscount('');
+    console.log(name)
+    console.log(newItem.name)
+
   }
   return (
     <div>
@@ -123,15 +137,18 @@ function AddFrom({ onAddCards }) {
         <input
           placeholder="Enter name"
           type="text"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           placeholder="Enter price"
           type="text"
+          value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
         />
         <input
           type="text"
+          value={discount}
           placeholder="Enter discount"
           onChange={(e) => setDiscount(Number(e.target.value))}
         />
