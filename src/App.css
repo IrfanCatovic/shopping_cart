@@ -9,22 +9,29 @@ body {
   display: flex;
 
   margin: 20px auto;
+
+  background-color: #eeeeee;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
 }
 .list {
   display: flex;
+  justify-content: start;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .cart-item {
+  margin: 5px;
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #eee;
   border-radius: 4px;
   background-color: #fff;
-  flex-direction: row;
+  flex-direction: column;
 }
 button {
   display: inline-block;
@@ -61,4 +68,17 @@ button:hover {
 .delete-button:hover {
   background-color: #fff;
   color: #e74c3c;
+}
+
+input {
+  width: 110px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input:focus {
+  border-color: #3498db;
+  outline: none;
 }

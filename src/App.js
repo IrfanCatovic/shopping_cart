@@ -61,14 +61,16 @@ export default function App() {
   return (
     <div className="shopping-cart">
       {/* <button>Add</button> */}
-      <ItemsList
-        totalBill={totalBill}
-        allItems={allItems}
-        onHandleTotalBill={handleTotalBill}
-        onHandleDelete={handleDelete}
-        onClearList={handleClearList}
-      />
       <AddFrom onAddCards={handleAddCards} />
+      <div>
+        <ItemsList
+          totalBill={totalBill}
+          allItems={allItems}
+          onHandleTotalBill={handleTotalBill}
+          onHandleDelete={handleDelete}
+          onClearList={handleClearList}
+        />
+      </div>
       {allItems.length > 0 && (
         <button onClick={deleteItems}>Format List</button>
       )}
