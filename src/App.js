@@ -138,7 +138,6 @@ function Item({ item, onHandleTotalBill, onHandleDelete }) {
         <p>{`Price: ${item.price}`}</p>
         <p>{`Discount: ${item.discount}%`}</p>
 
-        <span>Choose amount </span>
         <input
           type="text"
           placeholder="Enter amount"
@@ -150,15 +149,17 @@ function Item({ item, onHandleTotalBill, onHandleDelete }) {
 
         {/* <p>{`Total to pay: ${bill}`}</p> */}
 
-        <button onClick={() => calculateBill(totalBill, item, amount)}>
-          Buy
-        </button>
-        <button
-          className="delete-button"
-          onClick={() => onHandleDelete(item.id)}
-        >
-          Delete
-        </button>
+        <div className="card-btn">
+          <button onClick={() => calculateBill(totalBill, item, amount)}>
+            Buy
+          </button>
+          <button
+            className="delete-button"
+            onClick={() => onHandleDelete(item.id)}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );
