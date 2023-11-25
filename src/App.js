@@ -41,11 +41,8 @@ export default function App() {
 
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
-
-
   }
 
-  
   function handleTotalBill(bill) {
     // setTotalBill(totalBill + bill);
     console.log(`Evo me u handle total i ovo je bill ${bill}`);
@@ -53,52 +50,69 @@ export default function App() {
     console.log(`Ovo je total bill u handleTotalBill ${totalBill}`);
   }
 
-  function deleteItems(){
+  function deleteItems() {
     setAllItems([]);
   }
 
-  function handleClearList()
-  {
-
-    setTotalBill(null)
-
+  function handleClearList() {
+    setTotalBill(null);
   }
 
   return (
-    <div className="App">
-      <button>Add</button>
-      <ItemsList totalBill={totalBill} allItems={allItems} onHandleTotalBill={handleTotalBill} onHandleDelete={handleDelete} onClearList={handleClearList}/>
+    <div className="shopping-cart">
+      {/* <button>Add</button> */}
+      <ItemsList
+        totalBill={totalBill}
+        allItems={allItems}
+        onHandleTotalBill={handleTotalBill}
+        onHandleDelete={handleDelete}
+        onClearList={handleClearList}
+      />
       <AddFrom onAddCards={handleAddCards} />
-      {allItems.length > 0 && (<button onClick={deleteItems}>Format List</button>)}
+      {allItems.length > 0 && (
+        <button onClick={deleteItems}>Format List</button>
+      )}
     </div>
   );
 }
 
-
-function ItemsList({ totalBill, allItems, onHandleTotalBill, onHandleDelete, onClearList }) {
+function ItemsList({
+  totalBill,
+  allItems,
+  onHandleTotalBill,
+  onHandleDelete,
+  onClearList,
+}) {
   return (
     <div>
       <div className="list">
-      {allItems.map((item) => (
-        <Item item={item} key={item.id} onHandleTotalBill={onHandleTotalBill} onHandleDelete={onHandleDelete} />
-      ))}
+        {allItems.map((item) => (
+          <Item
+            item={item}
+            key={item.id}
+            onHandleTotalBill={onHandleTotalBill}
+            onHandleDelete={onHandleDelete}
+          />
+        ))}
       </div>
 
-        {totalBill !== null && totalBill !== 0 && (
-          <div>
+      {totalBill !== null && totalBill !== 0 && (
+        <div>
           <h2>Total Bill: ${totalBill}</h2>
-          <button onClick={()=>onClearList()}>Clear list</button>
-          </div>
-        )}
+          <button className="delete-button" onClick={() => onClearList()}>
+            Clear list
+          </button>
+        </div>
+      )}
 
-      <div/>
+      <div />
     </div>
   );
 }
 
 let totalBill = 0;
 
-function Item({ item, onHandleTotalBill , onHandleDelete}) {
+function Item({ item, onHandleTotalBill, onHandleDelete }) {
   let [amount, setAmount] = useState("");
   const [bill, setBill] = useState(totalBill);
 
@@ -114,7 +128,7 @@ function Item({ item, onHandleTotalBill , onHandleDelete}) {
   }
   return (
     <div
-      className="card"
+      className="cart-item"
       style={item.payed ? { backgroundColor: "green", color: "#fff" } : null}
     >
       <div className="card-content">
@@ -133,11 +147,16 @@ function Item({ item, onHandleTotalBill , onHandleDelete}) {
         />
 
         {/* <p>{`Total to pay: ${bill}`}</p> */}
-        
-          <button onClick={() => calculateBill(totalBill, item, amount)}>
+
+        <button onClick={() => calculateBill(totalBill, item, amount)}>
           Buy
         </button>
-        <button onClick={()=> onHandleDelete(item.id)}>Delete</button>
+        <button
+          className="delete-button"
+          onClick={() => onHandleDelete(item.id)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
@@ -155,13 +174,12 @@ function AddFrom({ onAddCards }) {
 
     onAddCards(newItem);
 
-    console.log("Ovo me zanima")
-    setName('');
-    setPrice('');
-    setDiscount('');
-    console.log(name)
-    console.log(newItem.name)
-
+    console.log("Ovo me zanima");
+    setName("");
+    setPrice("");
+    setDiscount("");
+    console.log(name);
+    console.log(newItem.name);
   }
   return (
     <div>
@@ -186,7 +204,9 @@ function AddFrom({ onAddCards }) {
           onChange={(e) => setDiscount(Number(e.target.value))}
         />
 
-        <button type="submit">Add item</button>
+        <button type="submit" className="submit-button">
+          Add item
+        </button>
       </form>
     </div>
   );
