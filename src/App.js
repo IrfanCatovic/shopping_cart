@@ -30,16 +30,29 @@ const shopingItems = [
 
 export default function App() {
   const [allItems, setAllItems] = useState([]);
-  let [totalBill, setTotalBill] = useState(null);
+  let [totalBill, setTotalBill] = useState(0);
   let [amount, setAmount] = useState("");
+  let [cardBill, setCardBill] = useState(null);
+
+
 
   function enterAmount(num) {
     setAmount(num);
     console.log("Ovo je kol iz funkcije");
     console.log(num);
   }
-  function handleDelete(id) {
-    setAllItems((allItems) => allItems.filter((item) => item.id !== id));
+  function handleDelete(itemFromCard) {
+    setAllItems((allItems) => allItems.filter((item) => item.id !== itemFromCard.id));
+    let trenutniBIll = 0;
+
+    trenutniBIll = totalBill - (itemFromCard.price  * Number(amount)) + ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(amount))) ;
+
+    
+    console.log(amount)
+    console.log("Iznad je kolicina")
+    setTotalBill(trenutniBIll)
+    console.log(trenutniBIll)
+    console.log(totalBill)
     //funckija filter prodje kroz ceo array items i proverava da li dobijeni id nije jednak id u nizu
     //ako nije jednak onda moze da nastavi u novi kreirani niz
     //ako je jednak on ne moze u novi niz nego bude izbrisan
@@ -158,7 +171,7 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
           }}
         />
 
-        {/* <p>{`Total to pay: ${bill}`}</p> */}
+        <p>{`Total to pay: ${bill}`}</p>
 
         <div className="card-btn">
           <button onClick={() => calculateBill(totalBill, item, amount)}>
@@ -166,7 +179,7 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
           </button>
           <button
             className="delete-button"
-            onClick={() => onHandleDelete(item.id)}
+            onClick={() => onHandleDelete(item)}
           >
             Delete
           </button>
