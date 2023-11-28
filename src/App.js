@@ -31,7 +31,13 @@ const shopingItems = [
 export default function App() {
   const [allItems, setAllItems] = useState([]);
   let [totalBill, setTotalBill] = useState(null);
+  let [amount, setAmount] = useState("");
 
+  function enterAmount(num) {
+    setAmount(num);
+    console.log("Ovo je kol iz funkcije");
+    console.log(num);
+  }
   function handleDelete(id) {
     setAllItems((allItems) => allItems.filter((item) => item.id !== id));
     //funckija filter prodje kroz ceo array items i proverava da li dobijeni id nije jednak id u nizu
@@ -52,6 +58,7 @@ export default function App() {
 
   function deleteItems() {
     setAllItems([]);
+    setTotalBill(null);
   }
 
   function handleClearList() {
@@ -69,6 +76,7 @@ export default function App() {
           onHandleTotalBill={handleTotalBill}
           onHandleDelete={handleDelete}
           onClearList={handleClearList}
+          onEnterAmount={enterAmount}
         />
       </div>
       {allItems.length > 0 && (
@@ -84,6 +92,7 @@ function ItemsList({
   onHandleTotalBill,
   onHandleDelete,
   onClearList,
+  onEnterAmount,
 }) {
   return (
     <div>
@@ -94,6 +103,7 @@ function ItemsList({
             key={item.id}
             onHandleTotalBill={onHandleTotalBill}
             onHandleDelete={onHandleDelete}
+            onEnterAmount={onEnterAmount}
           />
         ))}
       </div>
@@ -114,15 +124,16 @@ function ItemsList({
 
 let totalBill = 0;
 
-function Item({ item, onHandleTotalBill, onHandleDelete }) {
-  let [amount, setAmount] = useState("");
+function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
   const [bill, setBill] = useState(totalBill);
-
+  let [amount, setAmount] = useState("");
   function calculateBill(totalBill, item, amount) {
     console.log(item.price, amount);
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
     console.log(totalBill);
     setBill((bill) => bill + totalBill);
+
+    onEnterAmount(amount);
 
     console.log(`sada sam u calculate Bill Item componenti ${bill}`);
     onHandleTotalBill(totalBill);
