@@ -138,18 +138,17 @@ function ItemsList({
 
 
 function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
-  const [bill, setBill] = useState(totalBill);
+
   let [amount, setAmount] = useState("");
 
 
   function calculateBill(totalBill, item, amount) {
     
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
-    
-    setBill((bill) => bill + totalBill);
 
-    item.bill = bill;
-    console.log(`Ovo je total bill ${totalBill}, a ovo je item.bill ${item.bill}, a ovo je bill ${bill}`)
+
+    item.bill = item.bill + totalBill;
+    console.log(`Ovo je total bill ${totalBill}, a ovo je item.bill ${item.bill}`)
 
     onEnterAmount(item, amount);
 
