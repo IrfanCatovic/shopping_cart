@@ -35,23 +35,20 @@ export default function App() {
   let [cardBill, setCardBill] = useState(null);
   
 
-  function enterAmount(num) {
-    let allNum = 0;
+  function enterAmount(item, num) {
+    item.amount = item.amount + num;
 
-    allNum = allNum + num; 
-    console.log(`${allNum} + ${num}`)
+    console.log(item.amount)
+    
 
-    setAmount(allNum = allNum + num);
-    console.log("Ovo je kol iz funkcije");
-    console.log(allNum, num)
-    console.log(allNum);
+
   }
   function handleDelete(itemFromCard) {
     setAllItems((allItems) => allItems.filter((item) => item.id !== itemFromCard.id));
     let trenutniBIll = 0;
 
-    trenutniBIll = totalBill - (itemFromCard.price  * Number(amount)) + 
-    ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(amount))) ;
+    trenutniBIll = totalBill - (itemFromCard.price  * Number(itemFromCard.amount)) + 
+    ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(itemFromCard.amount))) ;
 
     
     console.log(amount)
@@ -66,6 +63,7 @@ export default function App() {
 
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
+    console.log(item.amount)
   }
 
   function handleTotalBill(bill) {
@@ -146,15 +144,17 @@ let totalBill = 0;
 function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
   const [bill, setBill] = useState(totalBill);
   let [amount, setAmount] = useState("");
+
+
   function calculateBill(totalBill, item, amount) {
-    console.log(item.price, amount);
+    
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
-    console.log(totalBill);
+    
     setBill((bill) => bill + totalBill);
 
-    onEnterAmount(amount);
+    onEnterAmount(item, amount);
 
-    console.log(`sada sam u calculate Bill Item componenti ${bill}`);
+    
     onHandleTotalBill(totalBill);
     setAmount("");
   }
@@ -167,6 +167,7 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
         <p>{`Name: ${item.name}`}</p>
         <p>{`Price: ${item.price}`}</p>
         <p>{`Discount: ${item.discount}%`}</p>
+        <p>{`Amount: ${item.amount}`}</p>
 
         <input
           type="text"
@@ -199,11 +200,12 @@ function AddFrom({ onAddCards }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
+  let amount=0; 
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const newItem = { name, price, discount, id: Date.now() };
+    const newItem = { name, price, discount, amount ,  id: Date.now() };
 
     onAddCards(newItem);
 
@@ -211,6 +213,7 @@ function AddFrom({ onAddCards }) {
     setName("");
     setPrice("");
     setDiscount("");
+    
     console.log(name);
     console.log(newItem.name);
   }
