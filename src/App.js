@@ -34,10 +34,12 @@ export default function App() {
   let [amount, setAmount] = useState("");
   let [cardBill, setCardBill] = useState(null);
   
-  let allNum = 0;
 
   function enterAmount(num) {
-    
+    let allNum = 0;
+
+    allNum = allNum + num; 
+    console.log(`${allNum} + ${num}`)
 
     setAmount(allNum = allNum + num);
     console.log("Ovo je kol iz funkcije");
