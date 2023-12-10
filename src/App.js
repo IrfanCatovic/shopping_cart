@@ -33,19 +33,23 @@ export default function App() {
   let [totalBill, setTotalBill] = useState(0);
   let [amount, setAmount] = useState("");
   let [cardBill, setCardBill] = useState(null);
-
-
+  
+  let allNum = 0;
 
   function enterAmount(num) {
-    setAmount(num);
+    
+
+    setAmount(allNum = allNum + num);
     console.log("Ovo je kol iz funkcije");
-    console.log(num);
+    console.log(allNum, num)
+    console.log(allNum);
   }
   function handleDelete(itemFromCard) {
     setAllItems((allItems) => allItems.filter((item) => item.id !== itemFromCard.id));
     let trenutniBIll = 0;
 
-    trenutniBIll = totalBill - (itemFromCard.price  * Number(amount)) + ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(amount))) ;
+    trenutniBIll = totalBill - (itemFromCard.price  * Number(amount)) + 
+    ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(amount))) ;
 
     
     console.log(amount)
