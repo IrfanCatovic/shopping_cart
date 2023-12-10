@@ -1,48 +1,25 @@
 import { useState } from "react";
 import "./App.css";
 
-const shopingItems = [
-  {
-    name: "Water",
-    price: 350,
-    payed: true,
-    discount: 10,
-    amount: 2,
-    id: 1,
-  },
-  {
-    name: "Bread",
-    price: 50,
-    payed: false,
-    discount: 0,
-    amount: 1,
-    id: 2,
-  },
-  {
-    name: "Coffee",
-    price: 100,
-    payed: true,
-    discount: 15,
-    amount: 5,
-    id: 3,
-  },
-];
+let totalBill = 0;
 
 export default function App() {
   const [allItems, setAllItems] = useState([]);
   let [totalBill, setTotalBill] = useState(0);
-  let [amount, setAmount] = useState("");
-  let [cardBill, setCardBill] = useState(null);
+
   
 
+  //FUNCTION FOR ENTERING AMOUNT IN CARDS
   function enterAmount(item, num) {
     item.amount = item.amount + num;
 
     console.log(item.amount)
-    
-
+  
 
   }
+
+
+  //FUNCTION FOR DELETE ONE CARD OF THE LIST
   function handleDelete(itemFromCard) {
     setAllItems((allItems) => allItems.filter((item) => item.id !== itemFromCard.id));
     let trenutniBIll = 0;
@@ -51,7 +28,7 @@ export default function App() {
     ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(itemFromCard.amount))) ;
 
     
-    console.log(amount)
+
     console.log("Iznad je kolicina")
     setTotalBill(trenutniBIll)
     console.log(trenutniBIll)
@@ -61,13 +38,16 @@ export default function App() {
     //ako je jednak on ne moze u novi niz nego bude izbrisan
   }
 
+
+  //FUNCTION TO ADD NEW CARD TO THE LIST
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
     console.log(item.amount)
   }
 
+
   function handleTotalBill(bill) {
-    // setTotalBill(totalBill + bill);
+
     console.log(`Evo me u handle total i ovo je bill ${bill}`);
     setTotalBill((totalBill = totalBill + bill));
     console.log(`Ovo je total bill u handleTotalBill ${totalBill}`);
@@ -80,6 +60,14 @@ export default function App() {
 
   function handleClearList() {
     setTotalBill(null);
+    
+    const updatedObjects = allItems.map((obj) => ({
+      ...obj,
+      amount: 0,
+      bill: 0,
+    }));
+
+    setAllItems(updatedObjects);
   }
 
   return (
@@ -102,6 +90,9 @@ export default function App() {
     </div>
   );
 }
+
+
+
 
 function ItemsList({
   totalBill,
@@ -139,7 +130,12 @@ function ItemsList({
   );
 }
 
-let totalBill = 0;
+
+
+
+
+
+
 
 function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
   const [bill, setBill] = useState(totalBill);
@@ -151,6 +147,9 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
     
     setBill((bill) => bill + totalBill);
+
+    item.bill = bill;
+    console.log(`Ovo je total bill ${totalBill}, a ovo je item.bill ${item.bill}, a ovo je bill ${bill}`)
 
     onEnterAmount(item, amount);
 
@@ -178,7 +177,7 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
           }}
         />
 
-        <p>{`Total to pay: ${bill}`}</p>
+        <p>{`Total to pay: ${item.bill}`}</p>
 
         <div className="card-btn">
           <button onClick={() => calculateBill(totalBill, item, amount)}>
@@ -201,11 +200,12 @@ function AddFrom({ onAddCards }) {
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
   let amount=0; 
+  let bill = 0;
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const newItem = { name, price, discount, amount ,  id: Date.now() };
+    const newItem = { name, price, discount, amount , bill,  id: Date.now() };
 
     onAddCards(newItem);
 
