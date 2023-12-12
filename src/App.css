@@ -88,3 +88,8 @@ input:focus {
   border-color: #3498db;
   outline: none;
 }
+.card {
+  border: 2px solid green; /* Set the border to a green color */
+  padding: 20px; /* Add some padding for better visual appearance */
+  /* Add other styles for your card here */
+}
