@@ -1,53 +1,50 @@
 import { useState } from "react";
 import "./App.css";
+import { useLocalStorageState } from "./useLocalStorageState";
 
 let totalBill = 0;
 
 export default function App() {
-  const [allItems, setAllItems] = useState([]);
+  const [allItems, setAllItems] = useLocalStorageState([], "artikli");
   let [totalBill, setTotalBill] = useState(0);
-
-  
 
   //FUNCTION FOR ENTERING AMOUNT IN CARDS
   function enterAmount(item, num) {
     item.amount = item.amount + num;
 
-    console.log(item.amount)
-  
-
+    console.log(item.amount);
   }
-
 
   //FUNCTION FOR DELETE ONE CARD OF THE LIST
   function handleDelete(itemFromCard) {
-    setAllItems((allItems) => allItems.filter((item) => item.id !== itemFromCard.id));
+    setAllItems((allItems) =>
+      allItems.filter((item) => item.id !== itemFromCard.id)
+    );
     let trenutniBIll = 0;
 
-    trenutniBIll = totalBill - (itemFromCard.price  * Number(itemFromCard.amount)) + 
-    ((itemFromCard.price / 100 * Number(itemFromCard.discount) * Number(itemFromCard.amount))) ;
+    trenutniBIll =
+      totalBill -
+      itemFromCard.price * Number(itemFromCard.amount) +
+      (itemFromCard.price / 100) *
+        Number(itemFromCard.discount) *
+        Number(itemFromCard.amount);
 
-    
-
-    console.log("Iznad je kolicina")
-    setTotalBill(trenutniBIll)
-    console.log(trenutniBIll)
-    console.log(totalBill)
+    console.log("Iznad je kolicina");
+    setTotalBill(trenutniBIll);
+    console.log(trenutniBIll);
+    console.log(totalBill);
     //funckija filter prodje kroz ceo array items i proverava da li dobijeni id nije jednak id u nizu
     //ako nije jednak onda moze da nastavi u novi kreirani niz
     //ako je jednak on ne moze u novi niz nego bude izbrisan
   }
 
-
   //FUNCTION TO ADD NEW CARD TO THE LIST
   function handleAddCards(item) {
     setAllItems([...allItems, item]);
-    console.log(item.amount)
+    console.log(item.amount);
   }
 
-
   function handleTotalBill(bill) {
-
     console.log(`Evo me u handle total i ovo je bill ${bill}`);
     setTotalBill((totalBill = totalBill + bill));
     console.log(`Ovo je total bill u handleTotalBill ${totalBill}`);
@@ -60,7 +57,7 @@ export default function App() {
 
   function handleClearList() {
     setTotalBill(null);
-    
+
     const updatedObjects = allItems.map((obj) => ({
       ...obj,
       amount: 0,
@@ -90,9 +87,6 @@ export default function App() {
     </div>
   );
 }
-
-
-
 
 function ItemsList({
   totalBill,
@@ -130,29 +124,19 @@ function ItemsList({
   );
 }
 
-
-
-
-
-
-
-
 function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
-
   let [amount, setAmount] = useState("");
 
-
   function calculateBill(totalBill, item, amount) {
-    
     totalBill = (item.price - (item.price * item.discount) / 100) * amount;
 
-
     item.bill = item.bill + totalBill;
-    console.log(`Ovo je total bill ${totalBill}, a ovo je item.bill ${item.bill}`)
+    console.log(
+      `Ovo je total bill ${totalBill}, a ovo je item.bill ${item.bill}`
+    );
 
     onEnterAmount(item, amount);
 
-    
     onHandleTotalBill(totalBill);
     setAmount("");
   }
@@ -198,13 +182,13 @@ function AddFrom({ onAddCards }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
-  let amount=0; 
+  let amount = 0;
   let bill = 0;
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const newItem = { name, price, discount, amount , bill,  id: Date.now() };
+    const newItem = { name, price, discount, amount, bill, id: Date.now() };
 
     onAddCards(newItem);
 
@@ -212,7 +196,7 @@ function AddFrom({ onAddCards }) {
     setName("");
     setPrice("");
     setDiscount("");
-    
+
     console.log(name);
     console.log(newItem.name);
   }
