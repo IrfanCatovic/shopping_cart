@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { useLocalStorageState } from "./useLocalStorageState";
+import { useLocalStorageState } from "./Hooks/useLocalStorageState";
+import { useKey } from "./Hooks/useKey";
 
 let totalBill = 0;
 
@@ -140,6 +141,10 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
     onHandleTotalBill(totalBill);
     setAmount("");
   }
+
+  const inputEl = useRef(null);
+  // inputEl.trim() !== "";
+
   return (
     <div
       className="cart-item"
@@ -158,6 +163,7 @@ function Item({ item, onHandleTotalBill, onHandleDelete, onEnterAmount }) {
           onChange={(e) => {
             setAmount(Number(e.target.value));
           }}
+          ref={inputEl}
         />
 
         <p>{`Total to pay: ${item.bill}`}</p>
