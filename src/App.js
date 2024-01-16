@@ -7,7 +7,8 @@ let totalBill = 0;
 
 export default function App() {
   const [allItems, setAllItems] = useLocalStorageState([], "artikli");
-  let [totalBill, setTotalBill] = useState(0);
+
+  let [totalBill, setTotalBill] = useLocalStorageState(0, "cena");
 
   //FUNCTION FOR ENTERING AMOUNT IN CARDS
   function enterAmount(item, num) {
