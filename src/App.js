@@ -211,6 +211,7 @@ function AddFrom({ onAddCards }) {
     <div>
       <form onSubmit={handleSubmit}>
         <h3>Add new item shop</h3>
+        {/* <input type="image"> + </input> */}
         <input
           placeholder="Enter name"
           type="text"
